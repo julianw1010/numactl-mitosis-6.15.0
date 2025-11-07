@@ -27,8 +27,7 @@
 
 #if !defined(__NR_mbind) || !defined(__NR_set_mempolicy) || \
     !defined(__NR_get_mempolicy) || !defined(__NR_migrate_pages) || \
-    !defined(__NR_move_pages) || !defined(__NR_set_pgtblreplpolicy) || \
-    !defined(__NR_get_pgtblreplpolicy)
+    !defined(__NR_move_pages)
 
 #if defined(__x86_64__)
 
@@ -41,9 +40,7 @@
 #define __NR_set_mempolicy 238
 #define __NR_get_mempolicy 239
 #define __NR_migrate_pages 256
-#define __NR_move_pages 279
-#define __NR_set_pgtblreplpolicy 400
-#define __NR_get_pgtblreplpolicy 401    
+#define __NR_move_pages 279 
 
 #elif defined(__ia64__)
 
@@ -67,8 +64,6 @@
 #define __NR_set_mempolicy 276
 #define __NR_migrate_pages 294
 #define __NR_move_pages 317
-#define __NR_set_pgtblreplpolicy 400
-#define __NR_get_pgtblreplpolicy 401
 
 #elif defined(__powerpc__)
 
@@ -215,23 +210,6 @@ long syscall6(long call, long a, long b, long c, long d, long e, long f)
 #else
 #define syscall6 syscall
 #endif
-
-long WEAK get_pgreplpolicy(int *policy, unsigned long *nmask,
-        unsigned long maxnode, void *addr,
-        unsigned flags)
-{
-  return syscall(__NR_get_pgtblreplpolicy, policy, nmask,
-          maxnode, addr, flags);
-}
-
-long WEAK set_pgreplpolicy(int mode, const unsigned long *nmask,
-                                   unsigned long maxnode)
-{
-  long i;
-  i = syscall(__NR_set_pgtblreplpolicy,mode,nmask,maxnode);
-  return i;
-}
-
 
 long WEAK get_mempolicy(int *policy, unsigned long *nmask,
 				unsigned long maxnode, void *addr,

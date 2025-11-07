@@ -24,11 +24,7 @@ extern "C" {
 
 /* Kernel interface for NUMA API */
 
-/* System calls */
-extern long get_pgreplpolicy(int *mode, unsigned long *nmask,
-			unsigned long maxnode, void *addr, unsigned flags);
-extern long set_pgreplpolicy(int mode, const unsigned long *nmask,
-			  unsigned long maxnode);	
+/* System calls */	
 extern long get_mempolicy(int *mode, unsigned long *nmask,
 			unsigned long maxnode, void *addr, unsigned flags);
 extern long mbind(void *start, unsigned long len, int mode,
@@ -38,6 +34,10 @@ extern long set_mempolicy(int mode, const unsigned long *nmask,
 extern long migrate_pages(int pid, unsigned long maxnode,
 			  const unsigned long *frommask,
 			  const unsigned long *tomask);
+
+/* PGD replication control (via prctl from mitosisnewdiff.txt) */
+#define PR_SET_PGTABLE_REPL     100
+#define PR_GET_PGTABLE_REPL     101
 
 extern long move_pages(int pid, unsigned long count,
 		void **pages, const int *nodes, int *status, int flags);
